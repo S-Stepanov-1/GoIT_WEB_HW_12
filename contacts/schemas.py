@@ -1,5 +1,6 @@
+from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, EmailStr, PastDate
+from pydantic import BaseModel, EmailStr, PastDate, Field
 from pydantic_extra_types.phone_numbers import PhoneNumber
 
 
@@ -23,3 +24,30 @@ class ContactUpdate(BaseModel):
     email: Optional[EmailStr]
     phone_number: Optional[PhoneNumber]
     position: Optional[str]
+
+
+class UserModel(BaseModel):
+    username: str = Field(min_length=4, max_length=50, unique_items=True)
+    email: EmailStr = Field(unique_items=True, max_length=50)
+    password: str = Field(min_length=8, max_length=20)
+
+
+class UserDB(BaseModel):
+    id: int
+    username: str
+    user_email: EmailStr
+    password: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class UserResponse(UserDB):
+    detail: str = "User successfully created"
+
+
+class TokenModel(BaseModel):
+    access_token: str
+    refresh_token: str
+    token_type: str = "bearer"
