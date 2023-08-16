@@ -27,8 +27,8 @@ class ContactUpdate(BaseModel):
 
 
 class UserModel(BaseModel):
-    username: str = Field(min_length=4, max_length=50, unique_items=True)
-    email: EmailStr = Field(unique_items=True, max_length=50)
+    username: str = Field(min_length=4, max_length=50)
+    email: EmailStr = Field(max_length=50)
     password: str = Field(min_length=8, max_length=20)
 
 
