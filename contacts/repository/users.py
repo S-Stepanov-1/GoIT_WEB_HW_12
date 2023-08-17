@@ -29,6 +29,6 @@ async def delete_user(user: User, db: Session) -> None:
     logging.info(f"User {user.username} deleted")
 
 
-async def update_token(user: User, token: str, db: Session) -> None:
+async def update_token(user: Type[User], token: str | None, db: Session) -> None:
     user.refresh_token = token
     db.commit()
