@@ -25,10 +25,10 @@ async def register_user(body: UserModel = Depends(), db: Session = Depends(get_d
     return {"user": new_user, "detail": "User successfully created"}
 
 
-@router.post("/login", response_model=TokenModel)
+@router.post("/login", response_model=TokenModel, status_code=status.HTTP_201_CREATED)
 async def login(body: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = await repository_users.get_user_by_email(body.username, db)
-    if not user:
+    if not user or not auth_service.verify_password(body.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
