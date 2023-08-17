@@ -11,8 +11,8 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 
-from contacts.database.db_connect import get_db
-from contacts.repository import users as repository_users
+from my_contacts.database.db_connect import get_db
+from my_contacts.repository import users as repository_users
 
 current_folder = os.path.dirname(os.path.abspath(__file__))
 parent_folder = os.path.dirname(current_folder)

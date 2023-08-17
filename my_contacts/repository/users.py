@@ -3,8 +3,8 @@ from typing import Type
 
 from sqlalchemy.orm import Session
 
-from contacts.database.models import User
-from contacts.schemas import UserModel
+from my_contacts.database.models import User
+from my_contacts.schemas import UserModel
 
 
 async def get_user_by_email(email: str, db: Session) -> Type[User]:

@@ -28,4 +28,3 @@ class User(Base):
     created_at = Column(DateTime, default=func.now())
     refresh_token = Column(String(255), nullable=False)
     contacts = relationship("Contact", back_populates="user")
-
