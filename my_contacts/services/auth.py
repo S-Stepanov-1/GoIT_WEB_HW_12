@@ -1,10 +1,9 @@
-import logging
 import os
 
 from configparser import ConfigParser
 from typing import Optional
 
-from jose import JWTError, jwt
+from jose import jwt, JWTError
 from fastapi import HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
@@ -14,29 +13,31 @@ from datetime import datetime, timedelta
 from my_contacts.database.db_connect import get_db
 from my_contacts.repository import users as repository_users
 
-current_folder = os.path.dirname(os.path.abspath(__file__))
-parent_folder = os.path.dirname(current_folder)
-base_folder = os.path.dirname(parent_folder)
-
-init_file = os.path.join(base_folder, "config.ini")
-
-config = ConfigParser()
-config.read(init_file)
-
-secret_key = config.get("KEY", "secret_key")
+#  This part of the code doesn't make sense,
+#  because if you pass SECRET_KEY through config, the program interprets it somehow differently...
+# ----------------------------------------------------------------
+# current_folder = os.path.dirname(os.path.abspath(__file__))
+# parent_folder = os.path.dirname(current_folder)
+# base_folder = os.path.dirname(parent_folder)
+#
+# init_file = os.path.join(base_folder, "config.ini")
+#
+# config = ConfigParser()
+# config.read(init_file)
+# ----------------------------------------------------------------
 
 
 class Auth:
-    pws_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-    SECRET_KEY = secret_key
+    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+    SECRET_KEY = "top_secret_in_the_world"
     ALGORITHM = "HS256"
     oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 
     async def verify_password(self, plain_password, hashed_password):
-        return self.pws_context.verify(plain_password, hashed_password)
+        return self.pwd_context.verify(plain_password, hashed_password)
 
     async def get_password_hash(self, password: str):
-        return self.pws_context.hash(password)
+        return self.pwd_context.hash(password)
 
     # define a function to generate a new access token
     async def create_access_token(self, data: dict, expires_delta: Optional[float] = None):
@@ -76,21 +77,19 @@ class Auth:
     async def get_current_user(self, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
         credentials_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
+            detail="Could not validate credentials for this user",
             headers={"WWW-Authenticate": "Bearer"},
         )
-
         try:
             # Decode JWT
             payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
-            if payload['scope'] == 'access_token':
+            if payload["scope"] == "access_token":
                 email = payload["sub"]
                 if email is None:
                     raise credentials_exception
             else:
                 raise credentials_exception
-        except JWTError as err:
-            logging.info(err)
+        except JWTError:
             raise credentials_exception
 
         user = await repository_users.get_user_by_email(email, db)

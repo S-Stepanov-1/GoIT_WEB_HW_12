@@ -1,4 +1,3 @@
-import logging
 from typing import Type
 
 from sqlalchemy.orm import Session
@@ -18,7 +17,6 @@ async def create_user(body: UserModel, db: Session) -> User:
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    logging.info(f"User {new_user.username} created")
     return new_user
 
 
@@ -26,9 +24,9 @@ async def delete_user(user: User, db: Session) -> None:
     db.delete(user)
     db.commit()
     db.refresh(user)
-    logging.info(f"User {user.username} deleted")
 
 
 async def update_token(user: Type[User], token: str | None, db: Session) -> None:
     user.refresh_token = token
     db.commit()
+    db.refresh(user)

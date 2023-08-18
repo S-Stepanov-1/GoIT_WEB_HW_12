@@ -10,8 +10,8 @@ from my_contacts.routes import contacts, auth
 app = FastAPI()
 
 
-app.include_router(contacts.router, prefix="/api")
 app.include_router(auth.router, prefix="/api")
+app.include_router(contacts.router, prefix="/api")
 
 
 @app.get("/api/healthchecker")
@@ -28,4 +28,4 @@ def healthchecker(db: Session = Depends(get_db)):
 
 
 if __name__ == '__main__':
-    uvicorn.run("main:app", host="localhost", reload=True, log_level="info")
+    uvicorn.run("main:app", host="localhost", port=8001, reload=True, log_level="info")
