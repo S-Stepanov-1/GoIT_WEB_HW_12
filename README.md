@@ -1,5 +1,5 @@
-# GoIT_WEB_HW_11
-Individual homework №11 at GoIT school
+# GoIT_WEB_HW_12
+Individual homework №12 at GoIT school
 
 <div>
   <a href="https://www.python.org" target="_blank">
@@ -27,30 +27,13 @@ Individual homework №11 at GoIT school
 
 ## Description
 
-The project provides a RESTful API for managing your contacts. In this repository, you will find functionalities for creating, retrieving, updating, and deleting contacts, as well as searching for contacts by name, last name, or email address.
+This is a continuation of [GoIT_WEB_HW_11](https://github.com/S-Stepanov-1/GoIT_WEB_HW_11.git). The project provides a RESTful API for managing your contacts. In this repository, you will find functionalities for creating, retrieving, updating, and deleting contacts, as well as searching for contacts by name, last name, or email address.
+
+This part implements authentication and authorization of new users. Each user can perform certain operations only with his/her own contacts. In addition, in this work attention was paid to security. For secure access a couple of **`JWT tokens`** are used here - **`access_token`** & **`refresh_token`**. access_token is issued for 20 minutes, and refresh_token for 5 days.
 
 ## Functionalities
 
-### Create Contact
-Users can create a new contact by providing information about their first name, last name, email address, phone number, birthday, and position.
-
-### Get List of Contacts
-Users can retrieve a list of all contacts, including information about each contact such as first name, last name, email address, and birthday.
-
-### Get Contact by Identifier
-Users can retrieve information about a specific contact by providing its identifier.
-
-### Update Contact (using both **PUT** and **PATCH** methods)
-Users can update information about an existing contact, including its first name, last name, email address, phone number, birthday, and position.
-
-### Delete Contact
-Users can delete an existing contact by providing its identifier.
-
-### Search Contacts by Name, Last Name, or Email Address
-Users can search for contacts by entering a partial first name, last name, or email address. The API will return a list of contacts matching the entered query.
-
-### Get List of Contacts with Upcoming Birthdays
-Users can retrieve a list of contacts whose birthdays will occur within the next n days. By default, n is set to 7 days.
+Please see the functionality at this link **[GoIT_WEB_HW_11](https://github.com/S-Stepanov-1/GoIT_WEB_HW_11.git)**.
 
 ## Running the Project
 
@@ -58,19 +41,19 @@ To run the project on your computer, follow these steps:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/S-Stepanov-1/GoIT_WEB_HW_11.git
+   git clone https://github.com/S-Stepanov-1/GoIT_WEB_HW_12.git
    ```
 
 2. Install dependencies:
    ```
-   cd GoIT_WEB_HW_11
+   cd GoIT_WEB_HW_12
    poetry install
    ```
 
-3. Create a `config.ini` file in the `GoIT_WEB_HW_11` folder and specify the settings for connecting to the PostgreSQL database:
+3. Create a `config.ini` file in the `GoIT_WEB_HW_12` folder and specify the settings for connecting to the PostgreSQL database:
 
 ### config.ini
-![config_structure](Pictures/config.jpg)
+  ![config_structure](Pictures/config.jpg)
 
 4. Run a Docker container with PostgreSQL database or use analog:
     ```
@@ -89,15 +72,24 @@ To run the project on your computer, follow these steps:
 
 You can now access the API by making requests to 
     ```
-    http://localhost:8000
+    http://localhost:8000/docs
     ```
+    or
+    ```
+    http://localhost:8001/redoc
+    ```
+    
+7. Now you need to signup and then to login. After login you will get a couple of tokens. Please use `refresh_token` in this field (see the screen)
+### Field for refresh token
+<img src="Pictures/refresh_token.jpg" alt="API" height="300">
+
 
 ## Request Examples
 
-Examples of requests and responses for all the functionalities described above can be found in the [API documentation](http://localhost:8000/docs).
+Examples of requests and responses for all the functionalities described above can be found in the [API documentation](http://localhost:8000/docs) after starting the server.
 ### API
 ![API](Pictures/api.jpg)
 
 ## Conclusion
 
-The **GoIT_WEB_HW_11** project provides a convenient way to manage contacts and their birthdays through a RESTful API. Follow the instructions above to deploy the project on your computer and start using its functionalities. If you have any questions, feel free to reach out to the project author.
+The **GoIT_WEB_HW_12** project provides a convenient way to manage contacts and their birthdays through a RESTful API. Follow the instructions above to deploy the project on your computer and start using its functionalities. If you have any questions, feel free to reach out to the project author.
